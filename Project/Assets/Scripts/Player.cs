@@ -10,11 +10,31 @@ public class Player : MonoBehaviour {
 
     [SerializeField]
     private float movementSpeed;
+
     private bool facingRight;
     private bool slide;
 
-	// Use this for initialization
-	void Start ()
+    [SerializeField]
+    private Transform[] groundPoints;
+
+    [SerializeField]
+    private float groundRadius;
+
+    [SerializeField]
+    private LayerMask whatIsGround;
+
+    private bool isGrounded;
+
+    private bool jump;
+
+    [SerializeField]
+    private float jumpForce;
+
+    [SerializeField]
+    private bool airControl;
+
+    // Use this for initialization
+    void Start ()
     {
         facingRight = true;
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -28,6 +48,8 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate ()
     {
+        isGrounded = IsGrounded();
+
         float horizontal = Input.GetAxis("Horizontal");
 
         HandleMovement(horizontal);
@@ -39,9 +61,15 @@ public class Player : MonoBehaviour {
 
     private void HandleMovement(float horizontal)
     {
-        if (!myAnimator.GetBool("slide"))
+        if (!myAnimator.GetBool("slide") && (isGrounded || airControl))
         {
             myRigidbody.velocity = new Vector2(horizontal * movementSpeed, myRigidbody.velocity.y);
+        }
+
+        if(isGrounded && jump)
+        {
+            isGrounded = false;
+            myRigidbody.AddForce(new Vector2(0, jumpForce));
         }
 
         myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
@@ -58,6 +86,11 @@ public class Player : MonoBehaviour {
 
     private void HandleInput()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            jump = true;
+        }
+
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
             slide = true;
@@ -81,6 +114,27 @@ public class Player : MonoBehaviour {
     private void ResetValues()
     {
         slide = false;
+        jump = false;
+    }
+
+    private bool IsGrounded()
+    {
+        if(myRigidbody.velocity.y <= 0)
+        {
+            foreach (Transform point in groundPoints)
+            {
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(point.position, groundRadius, whatIsGround);
+
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if(colliders[i].gameObject != gameObject)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
 
