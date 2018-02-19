@@ -8,21 +8,49 @@ public class Enemy : Character {
     public bool attack;
 
     // Use this for initialization
-    void Start () {
-     
+    public override void Start ()
+    {
+
+        base.Start();
+        ChangeState(new IdleState());
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+
         HandleInput();
         ResetValues();
+        currentState.Execute();
+    }
+    public void ChangeState(IEnemyState newState)
+    {
+        if (currentState != null)
+        {
+            currentState.Exit();
+        }
+
+        currentState = newState;
+
+        currentState.Enter(this);
+    }
+
+    public void Move()
+    {
+        MyAnimator.SetFloat("speed", 1);
+        transform.Translate(GetDirection() * (movementSpeed * Time.deltaTime));
+    }
+
+    public Vector2 GetDirection()
+    {
+        return facingRight ? Vector2.right : Vector2.left;
     }
 
     private void HandleAttacks()
     {
         if (attack)
         {
-            myAnimator.SetTrigger("attack");
+            MyAnimator.SetTrigger("attack");
         }
     }
 

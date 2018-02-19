@@ -58,10 +58,10 @@ public class Player : Character {
     {
         if(myRigidbody.velocity.y < 0)
         {
-            myAnimator.SetBool("land", true);
+            MyAnimator.SetBool("land", true);
         }
 
-        if (!myAnimator.GetBool("slide") && (isGrounded || airControl))
+        if (!MyAnimator.GetBool("slide") && (isGrounded || airControl))
         {
             myRigidbody.velocity = new Vector2(horizontal * movementSpeed, myRigidbody.velocity.y);
         }
@@ -70,18 +70,18 @@ public class Player : Character {
         {
             isGrounded = false;
             myRigidbody.AddForce(new Vector2(0, jumpForce));
-            myAnimator.SetTrigger("jump");
+            MyAnimator.SetTrigger("jump");
         }
 
-        myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
+        MyAnimator.SetFloat("speed", Mathf.Abs(horizontal));
 
-        if (slide && !this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+        if (slide && !this.MyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
         {
-            myAnimator.SetBool("slide", true);
+            MyAnimator.SetBool("slide", true);
         }
-        else if (!this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+        else if (!this.MyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
         {
-            myAnimator.SetBool("slide", false);
+            MyAnimator.SetBool("slide", false);
         }
     }
 
@@ -126,8 +126,8 @@ public class Player : Character {
                 {
                     if(colliders[i].gameObject != gameObject)
                     {
-                        myAnimator.ResetTrigger("jump");
-                        myAnimator.SetBool("land", false);
+                        MyAnimator.ResetTrigger("jump");
+                        MyAnimator.SetBool("land", false);
                         return true;
                     }
                 }
@@ -140,11 +140,11 @@ public class Player : Character {
     {
         if(!isGrounded)
         {
-            myAnimator.SetLayerWeight(1, 1);
+            MyAnimator.SetLayerWeight(1, 1);
         }
         else
         {
-            myAnimator.SetLayerWeight(1, 0);
+            MyAnimator.SetLayerWeight(1, 0);
         }
     }
 }

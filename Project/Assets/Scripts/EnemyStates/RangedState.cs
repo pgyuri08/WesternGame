@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RagedState : IEnemyState
+public class RangedState : IEnemyState
 {
     public void Enter(Enemy enemy)
     {
