@@ -7,17 +7,13 @@ public abstract class Character : MonoBehaviour {
     protected Animator myAnimator;
 
     [SerializeField]
-    protected Transform knifePos;
-
-    [SerializeField]
     protected float movementSpeed;
 
     protected bool facingRight;
 
-    [SerializeField]
-    private GameObject knifePrefab;
-
     public bool Attack { get; set; }
+
+
 
     // Use this for initialization
     public virtual void Start ()
@@ -27,28 +23,16 @@ public abstract class Character : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+  
+        
 	}
-    
-    public void ChangeDirection()
+
+        public void ChangeDirection()
     {
         facingRight = !facingRight;
         transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
-    }
-
-    public void ThrowKnife(int value)
-    {
-        if (facingRight)
-        {
-            GameObject tmp = (GameObject)Instantiate(knifePrefab, knifePos.position, Quaternion.Euler(new Vector3(0, 0, -90)));
-            //tmp.GetComponent<Knife>().Initialize(Vector2.right);
-        }
-        else
-        {
-            GameObject tmp = (GameObject)Instantiate(knifePrefab, knifePos.position, Quaternion.Euler(new Vector3(0, 0, 90)));
-            //tmp.GetComponent<Knife>().Initialize(Vector2.left);
-        }
     }
 
 }

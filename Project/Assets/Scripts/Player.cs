@@ -98,6 +98,8 @@ public class Player : Character {
         }
     }
 
+
+
     private void Flip(float horizontal)
     {
         if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
