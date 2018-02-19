@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : Character {
 
     private Rigidbody2D myRigidbody;
 
-    private Animator myAnimator;
-
-    [SerializeField]
-    private float movementSpeed;
-
-    private bool facingRight;
     private bool slide;
 
     [SerializeField]
@@ -34,11 +28,10 @@ public class Player : MonoBehaviour {
     private bool airControl;
 
     // Use this for initialization
-    void Start ()
+    public override void Start ()
     {
-        facingRight = true;
+        base.Start();
         myRigidbody = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
 	}
 
     void Update()
@@ -109,13 +102,7 @@ public class Player : MonoBehaviour {
     {
         if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
         {
-            facingRight = !facingRight;
-
-            Vector3 theScale = transform.localScale;
-
-            theScale.x *= -1;
-
-            transform.localScale = theScale;
+            ChangeDirection();
         }
     }
 
