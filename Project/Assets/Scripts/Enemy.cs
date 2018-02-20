@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : Character {
 
+    public GameObject Target { get; set; }
+
     private IEnemyState currentState;
     public bool attack;
 
@@ -18,11 +20,25 @@ public class Enemy : Character {
 	// Update is called once per frame
 	void Update ()
     {
-
         HandleInput();
         ResetValues();
         currentState.Execute();
+        LookAtTarget();
     }
+
+    private void LookAtTarget()
+    {
+        if(Target != null)
+        {
+            float xDir = Target.transform.position.x - transform.position.x;
+
+            if (xDir < 0  && facingRight ||xDir > 0 && !facingRight)
+            {
+                ChangeDirection();
+            }
+        }
+    }
+
     public void ChangeState(IEnemyState newState)
     {
         if (currentState != null)
@@ -39,6 +55,11 @@ public class Enemy : Character {
     {
         MyAnimator.SetFloat("speed", 1);
         transform.Translate(GetDirection() * (movementSpeed * Time.deltaTime));
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        currentState.OnTriggerEnter(other); 
     }
 
     public Vector2 GetDirection()
