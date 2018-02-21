@@ -537,7 +537,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.268657
+  orthographic size: 7.791807
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -560,7 +560,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 190998647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7, y: -1, z: -10}
+  m_LocalPosition: {x: 3.7, y: 2.5, z: -10}
   m_LocalScale: {x: 1.631686, y: 1.1423607, z: 1.1423607}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1666,7 +1666,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 895107898}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.136332, y: -3.540563, z: 5.958409}
+  m_LocalPosition: {x: 10.136332, y: -6.2, z: 5.958409}
   m_LocalScale: {x: 3.7800002, y: 3.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1543449606}
@@ -2930,7 +2930,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  attack: 0
+  attack: 1
+  meleeRange: 2
 --- !u!50 &1351538576
 Rigidbody2D:
   serializedVersion: 4

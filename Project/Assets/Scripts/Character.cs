@@ -13,8 +13,6 @@ public abstract class Character : MonoBehaviour {
 
     public bool Attack { get; set; }
 
-
-
     // Use this for initialization
     public virtual void Start ()
     {

@@ -4,10 +4,44 @@ using UnityEngine;
 
 public class Enemy : Character {
 
+    private static Enemy instance;
+
+    public static Enemy Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<Enemy>();
+            }
+            return instance;
+        }
+    }
+
     public GameObject Target { get; set; }
 
     private IEnemyState currentState;
     public bool attack;
+
+    public bool Melee { get; set; }
+
+    [SerializeField]
+    private float meleeRange;
+
+    public bool InMeleeRange
+    {
+        get
+        {
+            if (Target != null)
+            {
+                return Vector2.Distance(transform.position, Target.transform.position) <= meleeRange;
+            }
+           
+                return false;
+        }
+    }
+
+
 
     // Use this for initialization
     public override void Start ()
@@ -21,9 +55,14 @@ public class Enemy : Character {
 	void Update ()
     {
         HandleInput();
-        ResetValues();
         currentState.Execute();
         LookAtTarget();
+    }
+
+    void FixedUpdate()
+    {
+        HandleAttacks();
+        ResetValues();
     }
 
     private void LookAtTarget()
@@ -53,8 +92,8 @@ public class Enemy : Character {
 
     public void Move()
     {
-        MyAnimator.SetFloat("speed", 1);
-        transform.Translate(GetDirection() * (movementSpeed * Time.deltaTime));
+            MyAnimator.SetFloat("speed", 1);
+            transform.Translate(GetDirection() * (movementSpeed * Time.deltaTime));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -67,6 +106,15 @@ public class Enemy : Character {
         return facingRight ? Vector2.right : Vector2.left;
     }
 
+    private void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            //MyAnimator.SetTrigger("attack");
+            attack = true;
+        }
+    }
+
     private void HandleAttacks()
     {
         if (attack)
@@ -75,15 +123,7 @@ public class Enemy : Character {
         }
     }
 
-    private void HandleInput()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            attack = true;
-        }
-    }
-
-    private void ResetValues()
+   private void ResetValues()
     {
         attack = false;
     }

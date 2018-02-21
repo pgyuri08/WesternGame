@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class Player : Character {
 
+    //extra line
+    public static Player instance;
+
+    public static Player Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<Player>();
+            }
+            return instance;
+        }
+    }
+
     private Rigidbody2D myRigidbody;
 
     private bool slide;
